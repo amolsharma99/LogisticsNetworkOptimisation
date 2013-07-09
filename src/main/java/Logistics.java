@@ -1,3 +1,6 @@
+import com.apple.eawt.Application;
+import au.com.bytecode.opencsv.*;
+
 /**
  * Created with IntelliJ IDEA.
  * User: amol.sharma
@@ -7,6 +10,8 @@
  */
 
 
-public class Logistics {
+public class Logistics extends Application{
+
+    DeliveryHub[] deliveryHubList;
 
 }
