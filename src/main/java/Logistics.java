@@ -56,8 +56,18 @@ public class Logistics extends Application {
                     double lat = Double.parseDouble(itrInstance.next().toString());
                     double lon = Double.parseDouble(itrInstance.next().toString());
 //                    System.out.println(lat + " " + lon);
-                    LatLongNumshipments tmp = new LatLongNumshipments(lat, lon, 10);
-                    clustersResult.add(tmp);
+                    Set<Double> coordinates = new HashSet<Double>();
+                    coordinates.add(lat);
+                    coordinates.add(lon);
+                    //System.out.println("jehfviche"+);
+                    try{
+                    LatLongNumshipments tmp = new LatLongNumshipments(lat, lon, pincodehash.get(mymap.get(coordinates)));
+                         clustersResult.add(tmp);
+                    }
+                    catch(NullPointerException e){
+                        System.out.println("Error at "+coordinates);
+                    }
+
                 }
                 PinDeliveryHub pDeliveryHub = new PinDeliveryHub();
                 LatLongNumshipments dhmedian = pDeliveryHub.computeMeanLoc(clustersResult);

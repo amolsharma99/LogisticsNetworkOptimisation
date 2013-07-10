@@ -31,7 +31,6 @@ public class Utils {
     public void createLatLonPincodeMapping(String filename, Map<Set<Double>, Integer> mymap) {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(filename));
-            reader.readLine();
             String thisLine;
             while( (thisLine=reader.readLine())!=null){
                 String[] lineData = thisLine.split(",");
