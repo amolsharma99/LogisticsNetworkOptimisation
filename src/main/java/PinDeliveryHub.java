@@ -17,9 +17,6 @@ import java.util.ArrayList;
 public class PinDeliveryHub {
     public LatLongNumshipments computeMeanLoc(ArrayList<LatLongNumshipments> data)
     {
-        String Filename = null;
-        //ArrayList<LatLongNumshipments> data = new ArrayList<LatLongNumshipments>();
-        //get_data(data,Filename);
         double mean_latitude=0;
         double mean_longitude=0;
         double total_shipments=0;
