@@ -19,8 +19,17 @@
             <name>spantus sourceforge</name>
             <url>http://spantus.sourceforge.net/maven/global/</url>
         </repository>
+        <repository>
+            <id>ajt</id>
+            <name>ajt abeel</name>
+            <url>https://ajt.svn.sourceforge.net/svnroot/ajt/</url>
+        </repository>
     </repositories>
     <dependencies>
+        <dependency>
+            <groupId>tags</groupId>
+            <artifactId>test</artifactId>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
