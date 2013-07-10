@@ -13,6 +13,12 @@ public class LatLongNumshipments {
     private  double longitude;
     private  double num_of_shipments;
 
+    public LatLongNumshipments(double lat, double lon, double shipments){
+        latitude = lat;
+        longitude = lon;
+        num_of_shipments = shipments;
+    }
+
     public double getLatitude() {
         return latitude;
     }
