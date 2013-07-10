@@ -1,3 +1,11 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 /**
  * Created with IntelliJ IDEA.
  * User: amol.sharma
@@ -8,7 +16,7 @@
 public class Utils {
 
     public double distanceOnEarthBetweenPointsInKm(  //haversine formula
-                                                            double lat1, double lng1, double lat2, double lng2) {
+                                                     double lat1, double lng1, double lat2, double lng2) {
         int r = 6371; // average radius of the earth in km
         double dLat = Math.toRadians(lat2 - lat1);
         double dLon = Math.toRadians(lng2 - lng1);
@@ -18,6 +26,23 @@ public class Utils {
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         double d = r * c;
         return d;
+    }
+
+    public void createLatLonPincodeMapping(String filename, Map<Set<Double>, Integer> mymap) {
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(filename));
+            reader.readLine();
+            String thisLine;
+            while( (thisLine=reader.readLine())!=null){
+                String[] lineData = thisLine.split(",");
+                Set<Double> coordinates = new HashSet<Double>();
+                coordinates.add(Double.parseDouble(lineData[1]));
+                coordinates.add(Double.parseDouble(lineData[2]));
+                mymap.put(coordinates,Integer.parseInt(lineData[0]));
+            }
+        } catch (IOException e) {
+            System.err.println("Error: " + e);
+        }
     }
 
 
