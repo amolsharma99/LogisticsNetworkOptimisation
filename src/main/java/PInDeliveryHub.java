@@ -14,8 +14,8 @@ import java.util.ArrayList;
  * To change this template use File | Settings | File Templates.
  */
 
-public class PInDeliveryHub {
-    public void compute_mean_loc(ArrayList<LatLongNumshipments> data)
+public class PinDeliveryHub {
+    public LatLongNumshipments computeMeanLoc(ArrayList<LatLongNumshipments> data)
     {
         String Filename = null;
         //ArrayList<LatLongNumshipments> data = new ArrayList<LatLongNumshipments>();
@@ -23,6 +23,7 @@ public class PInDeliveryHub {
         double mean_latitude=0;
         double mean_longitude=0;
         double total_shipments=0;
+        LatLongNumshipments mean_point = new LatLongNumshipments();
 
         for(int i=0; i<data.size();i++)
         {
@@ -34,6 +35,12 @@ public class PInDeliveryHub {
 
         mean_latitude=mean_latitude/total_shipments;
         mean_longitude=mean_longitude/total_shipments;
+        mean_point.setLatitude(mean_latitude);
+        mean_point.setLongitude(mean_longitude);
+        mean_point.setNum_of_shipments(total_shipments);
+
+        return mean_point;
+
     }
 
     public void get_data(ArrayList<LatLongNumshipments> data, String Filename){
@@ -41,7 +48,7 @@ public class PInDeliveryHub {
         double latitude;
         double longitude;
         double num_of_shipments;
-        LatLongNumshipments datax;
+        //LatLongNumshipments datax;
         try {
           BufferedReader br = new BufferedReader(new FileReader(Filename));
             br.readLine();

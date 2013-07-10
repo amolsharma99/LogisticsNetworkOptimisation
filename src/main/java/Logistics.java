@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import net.sf.javaml.core.Instance;
 import net.sf.javaml.distance.DistanceMeasure;
 import net.sf.javaml.tools.data.FileHandler;
 
@@ -32,20 +33,34 @@ public class Logistics extends Application{
         try{
             Dataset data = FileHandler.loadDataset(new File("/Users/amol.sharma/LogisticsNetworkOptimisation/lat_long.csv"), ",");
             System.out.println(data);
-            int numberOfClusters = 1000;
+            int numberOfClusters = 100;
           //  PinCodeDistanceMeasure dm = new PinCodeDistanceMeasure();
-            Clusterer km = new KMeans(numberOfClusters, 30);
+            Clusterer km = new KMeans(numberOfClusters, 20);
             Dataset[] clusters = km.cluster(data);
 
             ArrayList<LatLongNumshipments> clustersResult = new ArrayList<LatLongNumshipments>();
 
             for(int i=0;i<clusters.length;i++){
                 Iterator itr = clusters[i].iterator();
-                double lat = Double.parseDouble(itr.next().toString());
-                double lon = Double.parseDouble(itr.next().toString());
+                System.out.println("printing cluster attributes");
+                while(itr.hasNext()){
+                Iterator itrInstance = ((Instance)itr.next()).iterator();
+//                System.out.println(itrInstance.next());
+//                System.out.println(itrInstance.next());
+                double lat = Double.parseDouble(itrInstance.next().toString());
+                double lon = Double.parseDouble(itrInstance.next().toString());
+                System.out.println(lat +" "+ lon);
                 LatLongNumshipments tmp = new LatLongNumshipments(lat, lon, 10);
                 clustersResult.add(tmp);
+                }
                 System.out.println(clusters[i]);
+            }
+
+            PinDeliveryHub pDeliveryHub = new PinDeliveryHub();
+            LatLongNumshipments dhmedian = pDeliveryHub.computeMeanLoc(clustersResult);
+            System.out.println("median of the cluster is "+dhmedian.getLatitude()+","+dhmedian.getLongitude()+","+dhmedian.getNum_of_shipments());
+            for(int i=0;i<clustersResult.size();i++){
+                System.out.println(clustersResult.get(i).getLatitude());
             }
         }
         catch(IOException e){

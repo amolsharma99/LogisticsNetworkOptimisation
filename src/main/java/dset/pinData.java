@@ -7,12 +7,12 @@ package dset;
  * Time: 12:03 AM
  * To change this template use File | Settings | File Templates.
  */
-public
+public class pinData {
 
-class pinData {
+    private int pin;
+    private int val;
 
-    private  int pin;
-    private  int val;
+    private double serviceableRadius;
 
 
     public int getPin() {
