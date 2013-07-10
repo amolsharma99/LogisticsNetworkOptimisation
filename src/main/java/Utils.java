@@ -45,5 +45,22 @@ public class Utils {
         }
     }
 
+      public static void getPincodeHash(Map<Integer, Integer> pincodehash, String filename) {
+        try {
+          BufferedReader br = new BufferedReader(new FileReader(filename));
+            br.readLine();
+            String thisLine;
+          while ((thisLine = br.readLine()) != null) { // while loop begins here
+              String[] lineData =  thisLine.split("\t");
+              pincodehash.put(Integer.parseInt(lineData[1]), Integer.parseInt(lineData[0]));
+            //System.out.println(thisLine);
+          } // end while
+
+        } // end try
+        catch (IOException e) {
+          System.err.println("Error: " + e);
+        }
+    }
+
 
 }

@@ -4,6 +4,8 @@ import net.sf.javaml.clustering.Clusterer;
 import net.sf.javaml.clustering.KMeans;
 import net.sf.javaml.core.Dataset;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.*;
 
 import java.io.File;
@@ -29,9 +31,16 @@ public class Logistics extends Application {
 
     public static void main(String[] args) {
         ArrayList<LatLongNumshipments> dhMedianList = new ArrayList<LatLongNumshipments>();
+        Map<Integer,Integer> pincodehash = new HashMap<Integer,Integer>();
+        String Filename="/Users/sujith.j/Downloads/pincode_shipments_data.csv";
+         Map<Set<Double>, Integer> mymap = new HashMap<Set<Double>, Integer>();
+       String latLongFileName = "/Users/sujith.j/LogisticsNetworkOptimisation/pincode_lat_long.csv";
+        new Utils().createLatLonPincodeMapping(latLongFileName, mymap);
+        new Utils().getPincodeHash(pincodehash, Filename);
+        //System.out.println("safjhfv"+pincodehash);
 
         try {
-            Dataset data = FileHandler.loadDataset(new File("/Users/amol.sharma/LogisticsNetworkOptimisation/pincode_lat_long.csv"), 0, ",");
+            Dataset data = FileHandler.loadDataset(new File(latLongFileName), 0, ",");
             System.out.println(data);
             int numberOfClusters = 100;
             //  PinCodeDistanceMeasure dm = new PinCodeDistanceMeasure();
@@ -61,6 +70,7 @@ public class Logistics extends Application {
         } catch (IOException e) {
         }
     }
+
 
 
 }
