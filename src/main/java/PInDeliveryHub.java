@@ -15,13 +15,25 @@ import java.util.ArrayList;
  */
 
 public class PInDeliveryHub {
-    public void compute_mean_loc()
+    public void compute_mean_loc(ArrayList<LatLongNumshipments> data)
     {
         String Filename = null;
-        ArrayList<LatLongNumshipments> data = new ArrayList<LatLongNumshipments>();
-        get_data(data,Filename);
+        //ArrayList<LatLongNumshipments> data = new ArrayList<LatLongNumshipments>();
+        //get_data(data,Filename);
+        double mean_latitude=0;
+        double mean_longitude=0;
+        double total_shipments=0;
 
+        for(int i=0; i<data.size();i++)
+        {
+            LatLongNumshipments datax = data.get(i);
+            total_shipments+=datax.getNum_of_shipments();
+            mean_latitude+= datax.getLatitude()*datax.getNum_of_shipments();
+            mean_longitude+= datax.getLongitude()*datax.getNum_of_shipments();
+        }
 
+        mean_latitude=mean_latitude/total_shipments;
+        mean_longitude=mean_longitude/total_shipments;
     }
 
     public void get_data(ArrayList<LatLongNumshipments> data, String Filename){
