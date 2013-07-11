@@ -35,6 +35,7 @@ public class Logistics extends Application {
 
     public static void main(String[] args) {
         int num = args.length;
+        int n= Integer.parseInt(args[0]);
         ArrayList<LatLongNumshipments> dhMedianList = new ArrayList<LatLongNumshipments>();
         Map<Integer, Integer> pincodehash = new HashMap<Integer, Integer>();
         String Filename = "/Users/sujith.j/Downloads/pincode_shipments_data.csv";
@@ -44,22 +45,17 @@ public class Logistics extends Application {
         new Utils().createLatLonPincodeMapping(latLongFileName, mymap);
         new Utils().getPincodeHash(pincodehash, Filename);
         new Utils().getpincodelatlongHash(pincodeLatLong, latLongFileName);
-        System.out.println(pincodeLatLong);
+        ArrayList<LatLongNumshipments>[] clusterdata = (ArrayList<LatLongNumshipments>[])new ArrayList[n];
 
-//        Dataset datay=new DefaultDataset();
-//        LatLong x;
-//        x = pincodeLatLong.get(Integer.parseInt(args[1]));
-//        double[] values = new double[]{x.getLatitude(), x.getLongitude()};
-//        Instance instance = new DenseInstance(values);
-//        datay.add(instance);
-//
-//        System.out.println(datay);
 
+        //Dataset datax = FileHandler.loadDataset(new File(latLongFileName), 0, ",");
+            //Dataset data=null;
+        Dataset data = new DefaultDataset();
+        Dataset[] clusters ;
+        ArrayList<LatLongNumshipments> clustersResult = new ArrayList<LatLongNumshipments>();
 
         try {
-            Dataset datax = FileHandler.loadDataset(new File(latLongFileName), 0, ",");
-            //Dataset data=null;
-            Dataset data = new DefaultDataset();
+
 
             try {
                 for (int ii=1; ii < args.length; ii++) {
@@ -71,52 +67,74 @@ public class Logistics extends Application {
                 }
             }catch (NullPointerException e)
             {
-                System.out.println("asf"+e);
+                //System.out.println("asf"+e);
                 return;
             }
 
 
-            System.out.println(data);
+            //System.out.println(data);
             AtomicInteger numberOfClusters = new AtomicInteger();
             numberOfClusters.set(Integer.parseInt(args[0]));
             //  PinCodeDistanceMeasure dm = new PinCodeDistanceMeasure();
-            Clusterer km = new KMeans(numberOfClusters.get(), 20);
-            Dataset[] clusters = km.cluster(data);
+            Clusterer km = new KMeans(numberOfClusters.get(), 1000);
+            clusters = km.cluster(data);
 
             for (int i = 0; i < clusters.length; i++) {
-                ArrayList<LatLongNumshipments> clustersResult = new ArrayList<LatLongNumshipments>();
+
                 Iterator itr = clusters[i].iterator();
-                // System.out.println("printing cluster attributes");
+                // //System.out.println("printing cluster attributes");
                 while (itr.hasNext()) {
                     Iterator itrInstance = ((Instance) itr.next()).iterator();
                     double lat = Double.parseDouble(itrInstance.next().toString());
                     double lon = Double.parseDouble(itrInstance.next().toString());
-//                    System.out.println(lat + " " + lon);
+//                    //System.out.println(lat + " " + lon);
                     Set<Double> coordinates = new HashSet<Double>();
                     coordinates.add(lat);
                     coordinates.add(lon);
-                    //System.out.println("jehfviche"+);
+                    ////System.out.println("jehfviche"+);
                     try {
                         LatLongNumshipments tmp = new LatLongNumshipments(lat, lon, pincodehash.get(mymap.get(coordinates)));
                         clustersResult.add(tmp);
                     } catch (NullPointerException e) {
-                        System.out.println("Error at " + coordinates);
+                        //System.out.println("Error at " + coordinates);
                     }
 
                 }
                 PinDeliveryHub pDeliveryHub = new PinDeliveryHub();
+
                 LatLongNumshipments dhmedian = pDeliveryHub.computeMeanLoc(clustersResult);
                 dhMedianList.add(dhmedian);
-                System.out.println(clusters[i]);
-                System.out.println("median of the cluster is " + dhmedian.getLatitude() + "," + dhmedian.getLongitude() + "," + dhmedian.getNum_of_shipments());
+
+                clusterdata[i]=(ArrayList<LatLongNumshipments>)clustersResult.clone();
+                //System.out.println(clusterdata[i]);
+                //System.out.println("median of the cluster is " + dhmedian.getLatitude() + "," + dhmedian.getLongitude() + "," + dhmedian.getNum_of_shipments());
+
+                clustersResult.clear();
             }
 
 
-        } catch (IOException e) {
+        } catch (NullPointerException e) {
+        }
+        System.out.println(args[0]);
+        for(int i=0;i<n;i++)
+        {
+            System.out.println(dhMedianList.get(i).getLatitude()+" "+dhMedianList.get(i).getLongitude()+" "+dhMedianList.get(i).getNum_of_shipments() );
+        }
+        for(int i=0;i<n;i++)
+        {
+
+            ArrayList<LatLongNumshipments> clusterd = clusterdata[i];
+            ////System.out.println(clusterdata[i]);
+            System.out.println(clusterd.size());
+            for(int j=0;j<clusterd.size();j++)
+            {
+                  System.out.println(clusterd.get(j).getLatitude()+" "+clusterd.get(j).getLongitude());
+            }
+
         }
     }
 
 
+
+
 }
-
-
