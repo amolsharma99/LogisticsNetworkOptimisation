@@ -12,6 +12,15 @@ public class LatLongNumshipments {
     private  double latitude;
     private  double longitude;
     private  double num_of_shipments;
+    private int pincode;
+
+    public int getPincode() {
+        return pincode;
+    }
+
+    public void setPincode(int pincode) {
+        this.pincode = pincode;
+    }
 
     public LatLongNumshipments(){
         latitude=0;

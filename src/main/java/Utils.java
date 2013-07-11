@@ -1,3 +1,6 @@
+import com.sun.tools.hat.internal.model.StackTrace;
+import dset.LatLong;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -59,6 +62,23 @@ public class Utils {
         catch (IOException e) {
           System.err.println("Error: " + e);
         }
+    }
+
+    public static void getpincodelatlongHash(Map<Integer,LatLong> mymap,String filename)
+    {
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(filename));
+            String thisLine;
+            while( (thisLine=reader.readLine())!=null){
+                String[] lineData = thisLine.split(",");
+                LatLong latLong = new LatLong(Double.parseDouble(lineData[1]),Double.parseDouble(lineData[2]));
+                mymap.put(Integer.parseInt(lineData[0]),latLong);
+
+            }
+        } catch (IOException e) {
+            System.err.println("Error: " + e);
+        }
+
     }
 
 
